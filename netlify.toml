@@ -8,4 +8,7 @@
     status = 200
 
 [functions]
-    timeout = 26   # seconds (max allowed without contacting support)
+    node_bundler = "esbuild"
+
+[functions.api]            # matches api.js
+    timeout = 30
