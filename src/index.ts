@@ -18,13 +18,14 @@ import {errorHandler} from './middleware/errorHandler';
 dotenv.config();
 
 const app = express();
-
+app.set('trust proxy', 1);
 // Security middleware
 app.use(helmet());
 app.use(cors());
-app.set('trust proxy', true);
 // Rate limiting
 const limiter = rateLimit({
+    standardHeaders: true,               // nice to have
+    legacyHeaders: false,
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // limit each IP to 100 requests per windowMs
     message: 'Too many requests from this IP, please try again later.'
