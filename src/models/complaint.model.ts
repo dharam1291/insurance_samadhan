@@ -87,7 +87,8 @@ const complaintSchema = new Schema<IComplaint>({
     type: Date
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  collection: 'complaints' // Explicitly set collection name
 });
 
 // Indexes for better query performance

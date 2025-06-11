@@ -112,7 +112,8 @@ const fraudSchema = new Schema<IFraud>({
     type: Date
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  collection: 'fraud' // Explicitly set collection name
 });
 
 // Indexes for better query performance
