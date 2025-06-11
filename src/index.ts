@@ -18,17 +18,28 @@ import {errorHandler} from './middleware/errorHandler';
 dotenv.config();
 
 const app = express();
-app.set('trust proxy', 1);
+/* ── MUST be before the limiter ───────────────────────────────────── */
+app.set('trust proxy', 1);          // trust exactly one proxy hop
+
 // Security middleware
 app.use(helmet());
 app.use(cors());
 // Rate limiting
 const limiter = rateLimit({
-    standardHeaders: true,               // nice to have
+    windowMs: 15 * 60_000,           // 15 min
+    max: 100,
+    standardHeaders: true,
     legacyHeaders: false,
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
-    message: 'Too many requests from this IP, please try again later.'
+    message: 'Too many requests from this IP, please try again later.',
+
+    /* 🔑  Netlify-friendly IP extractor  */
+    keyGenerator: (req /*, res*/) => {
+        const netlifyIP = req.headers['x-nf-client-connection-ip'];
+        // header can be string | string[] | undefined
+        if (Array.isArray(netlifyIP)) return netlifyIP[0];
+        if (netlifyIP) return netlifyIP;
+        return req.ip ?? 'unknown';
+    },
 });
 app.use(limiter);
 
