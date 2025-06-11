@@ -1,5 +1,8 @@
-/**
- */
+/* ------------------------------------------------------------------
+ * Builds a rock-solid MongoDB Atlas URI from separate env variables
+ * and opens a single Mongoose connection (re-used on warm invocations).
+ * ------------------------------------------------------------------ */
+
 import mongoose, {ConnectOptions} from 'mongoose';
 import dotenv from 'dotenv';
 

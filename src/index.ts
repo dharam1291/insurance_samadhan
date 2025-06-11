@@ -1,3 +1,9 @@
+/*  ------------------------------------------------------------------
+* One file for every environment:
+*  • Netlify Functions / AWS Lambda   → exports `handler`
+*   • Local development (`netlify dev` or `npm run dev`)
+*       → starts an Express server on localhost.
+* ------------------------------------------------------------------ */
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -55,14 +61,10 @@ app.use('*', (req, res) => {
     res.status(404).json({error: 'Route not found'});
 });
 
-const PORT = process.env.PORT || 3000;
-
-// For local development
-if (process.env.NODE_ENV !== 'production') {
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-    });
+/* ── Local dev: open a port  ───────────────────────────────────────── */
+if (process.env.NETLIFY_LOCAL === 'true' || process.env.NODE_ENV !== 'production') {
+    const PORT = Number(process.env.PORT) || 3000;
+    app.listen(PORT, () => console.log(`🚀  Local API on http://localhost:${PORT}`));
 }
-
-// For AWS Lambda
+/* ── Netlify / AWS Lambda export ──────────────────────────────────── */
 export const handler = serverless(app);
