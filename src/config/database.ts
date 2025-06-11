@@ -53,7 +53,7 @@ export async function initDB(): Promise<void> {
         );
     } catch (err) {
         console.error('❌  MongoDB connection error:', err);
-        process.exit(1); // shut the app down – better than a half-alive server
+        throw new Error('Failed to connect to the database');
     }
 }
 

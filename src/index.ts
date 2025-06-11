@@ -22,7 +22,7 @@ const app = express();
 // Security middleware
 app.use(helmet());
 app.use(cors());
-
+app.set('trust proxy', true);
 // Rate limiting
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
