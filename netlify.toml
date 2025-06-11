@@ -1,6 +1,6 @@
 [build]
 command = "npm run build"
-functions = "dist/functions"      # where the compiled JS ends up
+functions = "dist"      # where the compiled JS ends up
 
 [[redirects]]
 from = "/api/*"
