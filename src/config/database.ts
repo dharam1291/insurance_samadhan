@@ -36,7 +36,8 @@ export async function initDB(): Promise<void> {
         /* Small, battle-tested defaults */
         const opts: ConnectOptions = {
             maxPoolSize: 10,
-            serverSelectionTimeoutMS: 5_000,
+            serverSelectionTimeoutMS: 30_000,
+            connectTimeoutMS: 30_000,
             socketTimeoutMS: 45_000,
         };
         console.log('MONGO URI:', mongoUri.replace(/\/\/.*?:.*?@/, '//<redacted>:<redacted>@'));

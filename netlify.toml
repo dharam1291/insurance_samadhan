@@ -10,5 +10,5 @@
 [functions]
     node_bundler = "esbuild"
 
-[functions.api]            # matches api.js
+[functions."*"]            # matches api.js
     timeout = 30
