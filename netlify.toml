@@ -1,8 +1,11 @@
 [build]
-command = "npm run build"
-functions = "dist"      # where the compiled JS ends up
+    command = "npm run build"
+    functions = "dist"      # where the compiled JS ends up
 
 [[redirects]]
-from = "/api/*"
-to = "/.netlify/functions/api/:splat"
-status = 200
+    from = "/api/*"
+    to = "/.netlify/functions/api/:splat"
+    status = 200
+
+[functions]
+    timeout = 26   # seconds (max allowed without contacting support)
