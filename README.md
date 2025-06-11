@@ -41,9 +41,12 @@ cp .env.example .env
 
 Edit `.env` file with your MongoDB connection string:
 ```
-MONGODB_URI=mongodb://localhost:27017/complaint-fraud-db
 PORT=3000
 NODE_ENV=development
+MONGO_USER=<mongouser>
+MONGO_PASS=<mongopass>
+MONGO_CLUSTER=<mongo_cloud_cluster>
+MONGO_DB=<dbname>
 ```
 
 4. Start the development server
