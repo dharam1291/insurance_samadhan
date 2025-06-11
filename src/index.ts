@@ -24,6 +24,14 @@ app.set('trust proxy', 1);          // trust exactly one proxy hop
 // Security middleware
 app.use(helmet());
 app.use(cors());
+
+/* Netlify passes the real client IP in this header */
+const getClientIp = (req: express.Request): string => {
+    const ip = req.headers['x-nf-client-connection-ip'];
+    if (Array.isArray(ip)) return ip[0];
+    return ip ?? req.ip ?? 'unknown';
+};
+
 // Rate limiting
 const limiter = rateLimit({
     windowMs: 15 * 60_000,           // 15 min
@@ -31,15 +39,8 @@ const limiter = rateLimit({
     standardHeaders: true,
     legacyHeaders: false,
     message: 'Too many requests from this IP, please try again later.',
-
     /* 🔑  Netlify-friendly IP extractor  */
-    keyGenerator: (req /*, res*/) => {
-        const netlifyIP = req.headers['x-nf-client-connection-ip'];
-        // header can be string | string[] | undefined
-        if (Array.isArray(netlifyIP)) return netlifyIP[0];
-        if (netlifyIP) return netlifyIP;
-        return req.ip ?? 'unknown';
-    },
+    keyGenerator: getClientIp
 });
 app.use(limiter);
 

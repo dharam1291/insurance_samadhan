@@ -5,6 +5,7 @@
 
 import mongoose, {ConnectOptions} from 'mongoose';
 import dotenv from 'dotenv';
+import * as console from "node:console";
 
 dotenv.config();
 
@@ -38,7 +39,7 @@ export async function initDB(): Promise<void> {
             serverSelectionTimeoutMS: 5_000,
             socketTimeoutMS: 45_000,
         };
-
+        console.log('MONGO URI:', mongoUri.replace(/\/\/.*?:.*?@/, '//<redacted>:<redacted>@'));
         await mongoose.connect(mongoUri, opts);
 
         /* Connected! */
